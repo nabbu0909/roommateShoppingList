@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "358905747205",
+    "firebase_url": "https://roommateshoppinglist-4eb47.firebaseio.com",
+    "project_id": "roommateshoppinglist-4eb47",
+    "storage_bucket": "roommateshoppinglist-4eb47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358905747205:android:cbada7209e9681ec97096c",
+        "android_client_info": {
+          "package_name": "edu.uga.cs.roommateshoppinglist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358905747205-0rf0r62h9hvghjkqld66iqsj3ei3avhl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgmlHH5LEBgenaeiuHjRDry5KkWN2UztI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358905747205-0rf0r62h9hvghjkqld66iqsj3ei3avhl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
