@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button registerButton = findViewById( R.id.button2 );
+        Button registerButton = findViewById( R.id.registerButton);
         registerButton.setOnClickListener( new RegisterButtonClickListener() );
 
 
