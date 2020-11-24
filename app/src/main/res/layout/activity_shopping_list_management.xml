@@ -32,8 +32,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:padding="10dp"
-        android:text="You can add a new job lead or view your current leads"
-        android:textSize="30sp"
+        android:text="You can add a new shopping items or view the shopping list"
+        android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
