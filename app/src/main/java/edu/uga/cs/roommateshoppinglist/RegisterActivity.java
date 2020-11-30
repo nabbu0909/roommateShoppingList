@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,10 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText emailEditText;
-    private EditText nameEditText;
-    private EditText passwordEditText;
+
     private Button registerButton;
+    private EditText emailEditText, passwordEditText, confirmPassword, nameEditText;
+    private static final int RC_SIGN_IN = 123;
 
     DatabaseReference databaseUsers;
 
@@ -40,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById( R.id.editText1 );
         passwordEditText = (EditText) findViewById( R.id.editText2 );
         nameEditText = (EditText) findViewById( R.id.editText3 );
+        confirmPassword = (EditText) findViewById(R.id.editText);
 
         registerButton = (Button) findViewById( R.id.button3 );
         registerButton.setOnClickListener( new RegisterButtonClickListener() );
@@ -53,8 +55,9 @@ public class RegisterActivity extends AppCompatActivity {
             final String name = nameEditText.getText().toString();
 
             final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-            if(!TextUtils.isEmpty(name)) {
+            if(!(passwordEditText.getText().toString().equalsIgnoreCase(confirmPassword.getText().toString()))){
+                Toast.makeText(RegisterActivity.this, "Passwords must be the same", Toast.LENGTH_LONG).show();
+            } else if(!TextUtils.isEmpty(name)) {
                 // This is how we can create a new user using an email/password combination.
                 // Note that we also add an onComplete listener, which will be invoked once
                 // a new user has been created by Firebase.  This is how we will know the
@@ -95,6 +98,22 @@ public class RegisterActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(RegisterActivity.this, "Registration failed: Name cannot be empty",
                         Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RC_SIGN_IN){
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if(resultCode == RESULT_OK){
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //for now when a user registers, it takes you back to the main page where you can then sign in w/ new account
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Unable to sign in", Toast.LENGTH_SHORT).show();
             }
         }
     }
