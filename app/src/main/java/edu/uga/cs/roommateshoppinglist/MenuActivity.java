@@ -23,6 +23,8 @@ public class MenuActivity extends AppCompatActivity {
     String userName;
     DatabaseReference databaseUsers;
 
+    public static final String DEBUG_TAG = "MenuActivity";
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
