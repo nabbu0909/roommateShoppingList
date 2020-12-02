@@ -36,15 +36,11 @@ public class ShoppingList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
 
-        items.add(new ShoppingItem("Eggs"));
-        items.add(new ShoppingItem("Bacon"));
-
         //create recycler
         layoutManager = new LinearLayoutManager(this);
         recyclerView = (RecyclerView) findViewById(R.id.shoppingListRecyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter = new ShoppingListRecyclerAdapter( items );
-        recyclerView.setAdapter( recyclerAdapter );
+
 
         //add buttons
         addShoppingListItem = findViewById(R.id.addNewItemButton);
@@ -72,7 +68,9 @@ public class ShoppingList extends AppCompatActivity {
         }
     }
 
-    public void readItems() {
+    public void onStart() {
+        super.onStart();
+
         referenceItems.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -82,6 +80,8 @@ public class ShoppingList extends AppCompatActivity {
                     keys.add(key.getKey());
                     ShoppingItem item = key.getValue(ShoppingItem.class);
                     items.add(item);
+                    recyclerAdapter = new ShoppingListRecyclerAdapter( items );
+                    recyclerView.setAdapter( recyclerAdapter );
                 }
             }
 
