@@ -22,7 +22,7 @@ public class PurchasedItems extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchased_items);
 
-        recyclerView = findViewById(R.id.purchasedItemsRecyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         settleCostButton = findViewById(R.id.settleCost);
         settleCostButton.setOnClickListener(new SettleCostButtonListener());
     }
