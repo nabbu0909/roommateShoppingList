@@ -57,7 +57,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            Toast.makeText(editDropDown.getContext(),"You Clicked : " + item.getTitle() + " on " + itemName.getText(), Toast.LENGTH_SHORT).show();
                             switch (item.getItemId()){
                                 case R.id.deleteShoppingItem:
                                     deleteShoppingListItem((String) itemName.getText());

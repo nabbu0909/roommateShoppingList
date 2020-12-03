@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ public class ShoppingList extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter recyclerAdapter;
     Button addShoppingListItem, viewPurchasedItems;
+    private DialogFragment addDialog = new AddShoppingItemDialogFragment();
 
     public static final String DEBUG_TAG = "ShoppingList";
 
@@ -63,8 +65,7 @@ public class ShoppingList extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            //Intent intent = new Intent(ShoppingList.this, TBD.class);
-            //ShoppingList.this.startActivity(intent);
+            addDialog.show(getSupportFragmentManager(), "AddShoppingItemDialogFragment");
         }
     }
 
