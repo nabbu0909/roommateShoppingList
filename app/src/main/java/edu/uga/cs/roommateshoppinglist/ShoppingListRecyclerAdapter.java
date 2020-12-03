@@ -1,5 +1,6 @@
 package edu.uga.cs.roommateshoppinglist;
 
+import android.content.Context;
 import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +34,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     public static final String DEBUG_TAG = "StateCapitalsRecyclerAdapter";
 
     private List<ShoppingItem> items;
+    private DialogFragment editDialog = new EditShoppingItemDialogFragment();
 
     public ShoppingListRecyclerAdapter(List<ShoppingItem> items ) {
         this.items = items;
@@ -47,37 +51,16 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
             itemName = (TextView) itemView.findViewById( R.id.itemName );
             editDropDown = (ImageButton) itemView.findViewById(R.id.imageButton);
-            editDropDown.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(editDropDown.getContext(), editDropDown);
-                    popup.getMenuInflater().inflate(R.menu.shopping_list_dropdown, popup.getMenu());
-                    popup.show();
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()){
-                                case R.id.deleteShoppingItem:
-                                    deleteShoppingListItem((String) itemName.getText());
-                            }
-                            return true;
-                        }
-                    });
-
-                    popup.show();
-                }
-
-            });
 
         }
     }
 
     public void deleteShoppingListItem(String name){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query applesQuery = ref.child("ShoppingList").orderByChild("name").equalTo(name);
+        Query delQuery = ref.child("ShoppingList").orderByChild("name").equalTo(name);
 
-        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        delQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot delSnapshot: dataSnapshot.getChildren()) {
@@ -102,9 +85,32 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     }
 
     @Override
-    public void onBindViewHolder( ShoppingListHolder holder, int position ) {
+    public void onBindViewHolder(final ShoppingListHolder holder, int position ) {
         ShoppingItem item = items.get( position );
         holder.itemName.setText(item.getName());
+        holder.editDropDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final PopupMenu popup = new PopupMenu(holder.editDropDown.getContext(), holder.editDropDown);
+                popup.getMenuInflater().inflate(R.menu.shopping_list_dropdown, popup.getMenu());
+                popup.show();
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.deleteShoppingItem:
+                                deleteShoppingListItem((String) holder.itemName.getText());
+                            case R.id.editShoppingItem:
+                        }
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+
+        });
     }
 
     @Override

@@ -10,12 +10,15 @@ import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class AddShoppingItemDialogFragment extends DialogFragment {
-
-    DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("ShoppingList");
+public class EditShoppingItemDialogFragment extends DialogFragment {
+    DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference();
     String name;
     EditText nameText;
 
@@ -25,22 +28,36 @@ public class AddShoppingItemDialogFragment extends DialogFragment {
         final LayoutInflater inflater = requireActivity().getLayoutInflater();
 
         final View v = inflater.inflate(R.layout.add_shopping_item_dialog, null);
+        nameText = (EditText) v.findViewById(R.id.addShoppingItem);
 
         builder.setView(v)
                 // Add action buttons
                 .setPositiveButton("Add Item", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        nameText = (EditText) v.findViewById(R.id.addShoppingItem);
                         name = nameText.getText().toString();
-                        String dbId = databaseShoppingList.push().getKey();
                         ShoppingItem item = new ShoppingItem(name);
-                        databaseShoppingList.child(dbId).setValue(item);
+                        Query editQuery = databaseShoppingList.child("ShoppingList").orderByChild("name").equalTo(name);
+
+                        editQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot delSnapshot: dataSnapshot.getChildren()) {
+                                    delSnapshot.getRef().child("name").setValue(name);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+
+                        databaseShoppingList.child("ShoppingList").setValue(item);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        AddShoppingItemDialogFragment.this.getDialog().cancel();
+                        EditShoppingItemDialogFragment.this.getDialog().cancel();
                     }
                 });
         return builder.create();
