@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i( "FireBase Test", "Signed in as: " + user.getEmail() );
 
                 // after a successful sign in, start the job leads management activity
-                Intent intent = new Intent( this, MenuActivity.class );
+                Intent intent = new Intent( this, ShoppingList.class );
                 startActivity( intent );
 
             } else {
