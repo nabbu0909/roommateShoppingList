@@ -24,9 +24,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                card_view:srcCompat="@android:drawable/ic_menu_manage"
+                android:onClick="showPopup" />
+
             <TextView
                 android:id="@+id/itemName"
-                android:layout_width="199dp"
+                android:layout_width="154dp"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textSize="18sp"

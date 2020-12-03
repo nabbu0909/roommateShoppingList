@@ -1,12 +1,24 @@
 package edu.uga.cs.roommateshoppinglist;
 
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -28,12 +40,55 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     class ShoppingListHolder extends RecyclerView.ViewHolder {
 
         TextView itemName;
+        ImageButton editDropDown;
 
         public ShoppingListHolder(View itemView ) {
             super(itemView);
 
             itemName = (TextView) itemView.findViewById( R.id.itemName );
+            editDropDown = (ImageButton) itemView.findViewById(R.id.imageButton);
+            editDropDown.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(editDropDown.getContext(), editDropDown);
+                    popup.getMenuInflater().inflate(R.menu.shopping_list_dropdown, popup.getMenu());
+                    popup.show();
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()){
+                                case R.id.deleteShoppingItem:
+                                    deleteShoppingListItem((String) itemName.getText());
+                            }
+                            return true;
+                        }
+                    });
+
+                    popup.show();
+                }
+
+            });
+
         }
+    }
+
+    public void deleteShoppingListItem(String name){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query applesQuery = ref.child("ShoppingList").orderByChild("name").equalTo(name);
+
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot delSnapshot: dataSnapshot.getChildren()) {
+                    delSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override
