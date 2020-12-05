@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -46,13 +47,14 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
         TextView itemName;
         ImageButton editDropDown;
+        Button purchaseButton;
 
         public ShoppingListHolder(View itemView ) {
             super(itemView);
 
             itemName = (TextView) itemView.findViewById( R.id.itemName );
             editDropDown = (ImageButton) itemView.findViewById(R.id.imageButton);
-
+            purchaseButton = (Button) itemView.findViewById(R.id.button2);
 
         }
     }
@@ -90,6 +92,16 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         ShoppingItem item = items.get( position );
         holder.itemName.setText(item.getName());
         final DialogFragment editDialog = new EditShoppingItemDialogFragment().newInstance(item.getName());
+        final DialogFragment purchaseDialog = new PurchaseItemDialogFragment().newInstance(item.getName());
+
+        holder.purchaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
+                purchaseDialog.show(fragmentManager, "PurchaseItemDialogFragment");
+            }
+        });
+
         holder.editDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

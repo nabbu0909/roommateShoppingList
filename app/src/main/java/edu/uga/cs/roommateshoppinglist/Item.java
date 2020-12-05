@@ -1,5 +1,11 @@
 package edu.uga.cs.roommateshoppinglist;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDate;
+
 public class Item {
 
     private String itemName;
@@ -13,10 +19,13 @@ public class Item {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Item(String itemName, String itemPrice, String roommateName){
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.roommateName = roommateName;
+        this.itemID = null;
+        this.date = (java.time.LocalDate.now()).toString();
     }
 
     public String getItemName(){ return itemName; }
