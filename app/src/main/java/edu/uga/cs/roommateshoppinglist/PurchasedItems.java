@@ -2,8 +2,10 @@ package edu.uga.cs.roommateshoppinglist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,7 @@ public class PurchasedItems extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference referenceItems = database.getReference("PurchasedItems");
-    private List<Item> items = new ArrayList<Item>();
+    private List<Item> items;
 
     DatabaseReference db;
     RecyclerView recyclerView;
@@ -41,6 +43,7 @@ public class PurchasedItems extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView = (RecyclerView) findViewById(R.id.roommateRecyclerView);
         recyclerView.setLayoutManager(layoutManager);
+        items  = new ArrayList<Item>();
 
         //add buttons
         settleCostButton = findViewById(R.id.settleCostButton);
@@ -58,12 +61,14 @@ public class PurchasedItems extends AppCompatActivity {
 
     public void onStart() {
         super.onStart();
+        Log.d(DEBUG_TAG, "on start ");
 
         referenceItems.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                items.clear();
+
                 List<String> keys = new ArrayList<>();
+
                 for(DataSnapshot key : snapshot.getChildren()){
                     keys.add(key.getKey());
                     Item item = key.getValue(Item.class);
@@ -71,11 +76,13 @@ public class PurchasedItems extends AppCompatActivity {
                     recyclerAdapter = new PurchaseListRecyclerAdapter( items );
                     recyclerView.setAdapter( recyclerAdapter );
                 }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d(DEBUG_TAG, "on cancel ");
+                Toast.makeText(PurchasedItems.this, "Error with database", Toast.LENGTH_SHORT);
             }
         });
     }
