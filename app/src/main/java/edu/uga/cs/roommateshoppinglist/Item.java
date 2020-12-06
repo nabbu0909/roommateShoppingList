@@ -9,9 +9,7 @@ public class Item {
     private String roommateName;
 
     //default constructor
-    public Item(){
-
-    }
+    public Item() { }
 
     public Item(String itemName, String itemPrice, String roommateName){
         this.itemName = itemName;

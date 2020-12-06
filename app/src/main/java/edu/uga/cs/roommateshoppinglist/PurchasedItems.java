@@ -39,7 +39,7 @@ public class PurchasedItems extends AppCompatActivity {
 
         //create recycler
         layoutManager = new LinearLayoutManager(this);
-        recyclerView = (RecyclerView) findViewById(R.id.purchasedItemsRecyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.roommateRecyclerView);
         recyclerView.setLayoutManager(layoutManager);
 
         //add buttons
