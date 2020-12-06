@@ -30,7 +30,7 @@ public class SettleCost extends AppCompatActivity {
 
         //create recycler
         layoutManager = new LinearLayoutManager(this);
-        recyclerView = (RecyclerView) findViewById(R.id.roommateRecyclerView);
+//        recyclerView = (RecyclerView) findViewById(R.id.roommateRecyclerView);
         recyclerView.setLayoutManager(layoutManager);
 
     }

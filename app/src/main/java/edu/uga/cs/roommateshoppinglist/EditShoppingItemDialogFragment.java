@@ -18,9 +18,19 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class EditShoppingItemDialogFragment extends DialogFragment {
-    DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("ShoppingList");
     String name;
     EditText nameText;
+
+    public static EditShoppingItemDialogFragment newInstance(String oldName){
+        EditShoppingItemDialogFragment fragment = new EditShoppingItemDialogFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("oldName", oldName);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -32,12 +42,13 @@ public class EditShoppingItemDialogFragment extends DialogFragment {
 
         builder.setView(v)
                 // Add action buttons
-                .setPositiveButton("Add Item", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Edit Name", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        String oldName = getArguments().getString("oldName");
                         name = nameText.getText().toString();
                         ShoppingItem item = new ShoppingItem(name);
-                        Query editQuery = databaseShoppingList.child("ShoppingList").orderByChild("name").equalTo(name);
+                        Query editQuery = databaseShoppingList.orderByChild("name").equalTo(oldName);
 
                         editQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -51,8 +62,6 @@ public class EditShoppingItemDialogFragment extends DialogFragment {
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         });
-
-                        databaseShoppingList.child("ShoppingList").setValue(item);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

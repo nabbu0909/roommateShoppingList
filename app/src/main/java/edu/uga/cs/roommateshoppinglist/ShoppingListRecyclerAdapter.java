@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +36,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     public static final String DEBUG_TAG = "StateCapitalsRecyclerAdapter";
 
     private List<ShoppingItem> items;
-    private DialogFragment editDialog = new EditShoppingItemDialogFragment();
+
 
     public ShoppingListRecyclerAdapter(List<ShoppingItem> items ) {
         this.items = items;
@@ -45,13 +47,14 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
         TextView itemName;
         ImageButton editDropDown;
+        Button purchaseButton;
 
         public ShoppingListHolder(View itemView ) {
             super(itemView);
 
             itemName = (TextView) itemView.findViewById( R.id.itemName );
             editDropDown = (ImageButton) itemView.findViewById(R.id.imageButton);
-
+            purchaseButton = (Button) itemView.findViewById(R.id.button2);
 
         }
     }
@@ -88,6 +91,17 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     public void onBindViewHolder(final ShoppingListHolder holder, int position ) {
         ShoppingItem item = items.get( position );
         holder.itemName.setText(item.getName());
+        final DialogFragment editDialog = new EditShoppingItemDialogFragment().newInstance(item.getName());
+        final DialogFragment purchaseDialog = new PurchaseItemDialogFragment().newInstance(item.getName());
+
+        holder.purchaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
+                purchaseDialog.show(fragmentManager, "PurchaseItemDialogFragment");
+            }
+        });
+
         holder.editDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -101,7 +115,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
                         switch (item.getItemId()){
                             case R.id.deleteShoppingItem:
                                 deleteShoppingListItem((String) holder.itemName.getText());
+                                break;
                             case R.id.editShoppingItem:
+                                FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
+                                editDialog.show(fragmentManager, "EditShoppingItemDialogFragment");
+                                break;
                         }
                         return true;
                     }
