@@ -81,7 +81,7 @@ public class ShoppingList extends AppCompatActivity {
                     keys.add(key.getKey());
                     ShoppingItem item = key.getValue(ShoppingItem.class);
                     items.add(item);
-                    recyclerAdapter = new ShoppingListRecyclerAdapter( items );
+                    recyclerAdapter = new ShoppingListRecyclerAdapter(items);
                     recyclerView.setAdapter( recyclerAdapter );
                 }
             }

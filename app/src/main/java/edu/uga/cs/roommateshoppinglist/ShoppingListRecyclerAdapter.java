@@ -1,16 +1,21 @@
 package edu.uga.cs.roommateshoppinglist;
 
+import android.content.Context;
 import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +37,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
     private List<ShoppingItem> items;
 
+
     public ShoppingListRecyclerAdapter(List<ShoppingItem> items ) {
         this.items = items;
     }
@@ -41,43 +47,23 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
         TextView itemName;
         ImageButton editDropDown;
+        Button purchaseButton;
 
         public ShoppingListHolder(View itemView ) {
             super(itemView);
 
             itemName = (TextView) itemView.findViewById( R.id.itemName );
             editDropDown = (ImageButton) itemView.findViewById(R.id.imageButton);
-            editDropDown.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(editDropDown.getContext(), editDropDown);
-                    popup.getMenuInflater().inflate(R.menu.shopping_list_dropdown, popup.getMenu());
-                    popup.show();
-
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()){
-                                case R.id.deleteShoppingItem:
-                                    deleteShoppingListItem((String) itemName.getText());
-                            }
-                            return true;
-                        }
-                    });
-
-                    popup.show();
-                }
-
-            });
+            purchaseButton = (Button) itemView.findViewById(R.id.button2);
 
         }
     }
 
     public void deleteShoppingListItem(String name){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query applesQuery = ref.child("ShoppingList").orderByChild("name").equalTo(name);
+        Query delQuery = ref.child("ShoppingList").orderByChild("name").equalTo(name);
 
-        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        delQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot delSnapshot: dataSnapshot.getChildren()) {
@@ -102,9 +88,47 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     }
 
     @Override
-    public void onBindViewHolder( ShoppingListHolder holder, int position ) {
+    public void onBindViewHolder(final ShoppingListHolder holder, int position ) {
         ShoppingItem item = items.get( position );
         holder.itemName.setText(item.getName());
+        final DialogFragment editDialog = new EditShoppingItemDialogFragment().newInstance(item.getName());
+        final DialogFragment purchaseDialog = new PurchaseItemDialogFragment().newInstance(item.getName());
+
+        holder.purchaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
+                purchaseDialog.show(fragmentManager, "PurchaseItemDialogFragment");
+            }
+        });
+
+        holder.editDropDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final PopupMenu popup = new PopupMenu(holder.editDropDown.getContext(), holder.editDropDown);
+                popup.getMenuInflater().inflate(R.menu.shopping_list_dropdown, popup.getMenu());
+                popup.show();
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.deleteShoppingItem:
+                                deleteShoppingListItem((String) holder.itemName.getText());
+                                break;
+                            case R.id.editShoppingItem:
+                                FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
+                                editDialog.show(fragmentManager, "EditShoppingItemDialogFragment");
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+
+        });
     }
 
     @Override

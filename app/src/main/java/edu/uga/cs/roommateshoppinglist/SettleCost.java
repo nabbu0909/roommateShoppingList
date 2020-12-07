@@ -19,7 +19,6 @@ public class SettleCost extends AppCompatActivity {
     private DatabaseReference referenceItems = database.getReference("PurchasedItems");
     private List<ShoppingItem> items = new ArrayList<ShoppingItem>();
 
-
     DatabaseReference db;
     RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -31,11 +30,9 @@ public class SettleCost extends AppCompatActivity {
 
         //create recycler
         layoutManager = new LinearLayoutManager(this);
-        recyclerView = (RecyclerView) findViewById(R.id.purchasedItemsRecyclerView);
+//        recyclerView = (RecyclerView) findViewById(R.id.roommateRecyclerView);
         recyclerView.setLayoutManager(layoutManager);
 
     }
-
-
 
 }

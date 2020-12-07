@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddShoppingItemDialogFragment extends DialogFragment {
 
-    DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("ShoppingList");
+    DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("ShoppingList");
     String name;
     EditText nameText;
 
@@ -33,9 +33,9 @@ public class AddShoppingItemDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         nameText = (EditText) v.findViewById(R.id.addShoppingItem);
                         name = nameText.getText().toString();
-                        String dbId = databaseUsers.push().getKey();
+                        String dbId = databaseShoppingList.push().getKey();
                         ShoppingItem item = new ShoppingItem(name);
-                        databaseUsers.child(dbId).setValue(item);
+                        databaseShoppingList.child(dbId).setValue(item);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
