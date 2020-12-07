@@ -6,21 +6,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.ChildEventListener;
 
 import java.util.ArrayList;
 
 public class SettleCostRecyclerAdapter extends RecyclerView.Adapter<SettleCostRecyclerAdapter.RoommateHolder> {
 
     private ArrayList<Roommates> roommatesArrayList;
-    private Context context;
+    private Context mcontext;
 
     //this class gets allows context to be set and the list of roommates (from firebase) to be populated
     public SettleCostRecyclerAdapter(Context context, ArrayList<Roommates> roommatesArrayList){
-        this.context = context;
+        mcontext = context;
         this.roommatesArrayList = roommatesArrayList;
     }
 
@@ -49,7 +52,7 @@ public class SettleCostRecyclerAdapter extends RecyclerView.Adapter<SettleCostRe
     }
 
     @Override
-    public void onBindViewHolder(final RoommateHolder holder, int position){
+    public void onBindViewHolder(final RoommateHolder holder, final int position){
         Roommates roommate = roommatesArrayList.get(position);
         holder.name.setText(roommate.getName());
         holder.amountPaid.setText("Amount Paid: $" + roommate.getAmountPaid());
@@ -58,7 +61,7 @@ public class SettleCostRecyclerAdapter extends RecyclerView.Adapter<SettleCostRe
 
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(mcontext, roommatesArrayList.get(position).getName(), Toast.LENGTH_LONG).show();
             }
         });
     }
