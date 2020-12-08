@@ -22,7 +22,7 @@ import java.util.List;
 public class SettleCost extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference referenceItems = database.getReference("PurchasedItems");
+    private DatabaseReference referenceItems = database.getReference("PurchasedList");
     private ArrayList<Roommates> roommatesArrayList = new ArrayList<Roommates>();
 
     DatabaseReference db;
