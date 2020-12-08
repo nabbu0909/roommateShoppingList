@@ -24,7 +24,7 @@ import java.util.List;
 public class PurchasedItems extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference referenceItems = database.getReference("PurchasedList");
+    private DatabaseReference referenceItems = database.getReference("PurchaseList");
     private List<Item> items;
 
     DatabaseReference db;
@@ -66,7 +66,7 @@ public class PurchasedItems extends AppCompatActivity {
         referenceItems.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                items.clear();
                 List<String> keys = new ArrayList<>();
 
                 for(DataSnapshot key : snapshot.getChildren()){
