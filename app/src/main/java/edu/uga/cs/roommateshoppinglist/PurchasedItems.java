@@ -24,7 +24,7 @@ import java.util.List;
 public class PurchasedItems extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference referenceItems = database.getReference("PurchasedItems");
+    private DatabaseReference referenceItems = database.getReference("PurchasedList");
     private List<Item> items;
 
     DatabaseReference db;
