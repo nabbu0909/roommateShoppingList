@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +89,7 @@ public class SettleCost extends AppCompatActivity {
                             if (item.getRoommateName().equals(r.getName())) {
                                 Double previousAmount = Double.parseDouble(r.getAmountPaid());
                                 Double toAdd = Double.parseDouble(item.getItemPrice());
-                                Double total = previousAmount+toAdd;
+                                Double total = round(previousAmount+toAdd);
                                 r.setAmountPaid(total.toString());
                                 roommateFound = true;
                             }
@@ -104,6 +106,7 @@ public class SettleCost extends AppCompatActivity {
                 }
                 else {
                     totalCost /= roommatesArrayList.size();
+                    totalCost = round(totalCost);
                     finalCost.setText("Each person owes: $" + totalCost);
                 }
 
@@ -117,6 +120,12 @@ public class SettleCost extends AppCompatActivity {
 
             }
         });
+    }
+
+    private static double round(Double d){
+        BigDecimal bd = BigDecimal.valueOf(d);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public void deletePurchaseItems(){
