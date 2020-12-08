@@ -69,14 +69,14 @@ public class PurchaseListRecyclerAdapter extends RecyclerView.Adapter<PurchaseLi
         holder.itemPrice.setText("Item Price: $" + item.getItemPrice());
         holder.roommateName.setText("Roommate: " + item.getRoommateName());
         holder.date.setText("Date Purchased: " + item.getDate());
-        final DialogFragment editDialog = new EditShoppingItemPriceDialogFragment().newInstance(item.getItemName());
+        final DialogFragment editPurchaseDialog = new EditPurchaseItemPriceDialogFragment().newInstance(item.getItemID());
 
         holder.changePrice.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = ((FragmentActivity) view.getContext()).getSupportFragmentManager();
-                editDialog.show(fragmentManager, "PurchaseItemDialogFragment");
+                editPurchaseDialog.show(fragmentManager, "EditPurchaseItemPriceDialogFragment");
             }
         });
         holder.deleteItem.setOnClickListener(new View.OnClickListener(){
@@ -88,18 +88,17 @@ public class PurchaseListRecyclerAdapter extends RecyclerView.Adapter<PurchaseLi
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String currentUser = user.getDisplayName();
 
-                Item newItem = new Item(item.getItemName(), item.getItemPrice(), currentUser);
+                ShoppingItem newItem = new ShoppingItem(item.getItemName());
                 String dbID = databaseShoppingList.push().getKey();
-                newItem.setItemID(dbID);
                 databaseShoppingList.child(dbID).setValue(newItem);
-                deleteShoppingListItem(item.getItemName());
+                deletePurchaseListItem(item.getItemID());
             }
         });
     }
 
-    public void deleteShoppingListItem(String name){
+    public void deletePurchaseListItem(String name){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query delQuery = ref.child("PurchaseList").orderByChild("name").equalTo(name);
+        Query delQuery = ref.child("PurchaseList").orderByChild("itemID").equalTo(name);
 
         delQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

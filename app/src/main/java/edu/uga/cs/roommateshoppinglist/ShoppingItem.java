@@ -3,6 +3,15 @@ package edu.uga.cs.roommateshoppinglist;
 public class ShoppingItem {
 
     private String name;
+    private String itemId;
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
 
     public ShoppingItem( ) {
         this.name = null;

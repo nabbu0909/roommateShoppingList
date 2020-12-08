@@ -35,6 +35,7 @@ public class AddShoppingItemDialogFragment extends DialogFragment {
                         name = nameText.getText().toString();
                         String dbId = databaseShoppingList.push().getKey();
                         ShoppingItem item = new ShoppingItem(name);
+                        item.setItemId(dbId);
                         databaseShoppingList.child(dbId).setValue(item);
                     }
                 })

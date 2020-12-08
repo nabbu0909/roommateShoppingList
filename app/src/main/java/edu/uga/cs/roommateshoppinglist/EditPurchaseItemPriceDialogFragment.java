@@ -17,16 +17,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class EditShoppingItemPriceDialogFragment extends DialogFragment {
+public class EditPurchaseItemPriceDialogFragment extends DialogFragment {
     DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("PurchaseList");
     String price;
     EditText priceText;
 
-    public static EditShoppingItemDialogFragment newInstance(String oldPrice){
-        EditShoppingItemDialogFragment fragment = new EditShoppingItemDialogFragment();
+    public static EditPurchaseItemPriceDialogFragment newInstance(String oldId){
+        EditPurchaseItemPriceDialogFragment fragment = new EditPurchaseItemPriceDialogFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("oldPrice", oldPrice);
+        bundle.putString("oldId", oldId);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -45,10 +45,10 @@ public class EditShoppingItemPriceDialogFragment extends DialogFragment {
                 .setPositiveButton("Edit Price", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String oldPrice = getArguments().getString("oldPrice");
+                        String oldId = getArguments().getString("oldId");
                         price = priceText.getText().toString();
                         ShoppingItem item = new ShoppingItem(price);
-                        Query editQuery = databaseShoppingList.orderByChild("itemPrice").equalTo(oldPrice);
+                        Query editQuery = databaseShoppingList.orderByChild("itemID").equalTo(oldId);
 
                         editQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -66,7 +66,7 @@ public class EditShoppingItemPriceDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        EditShoppingItemPriceDialogFragment.this.getDialog().cancel();
+                        EditPurchaseItemPriceDialogFragment.this.getDialog().cancel();
                     }
                 });
         return builder.create();

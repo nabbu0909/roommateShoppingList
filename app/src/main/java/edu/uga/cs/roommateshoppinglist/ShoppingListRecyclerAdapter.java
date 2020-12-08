@@ -61,7 +61,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
     public void deleteShoppingListItem(String name){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query delQuery = ref.child("ShoppingList").orderByChild("name").equalTo(name);
+        Query delQuery = ref.child("ShoppingList").orderByChild("itemId").equalTo(name);
 
         delQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -90,6 +90,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     @Override
     public void onBindViewHolder(final ShoppingListHolder holder, int position ) {
         ShoppingItem item = items.get( position );
+        final String itemId = item.getItemId();
         holder.itemName.setText(item.getName());
         final DialogFragment editDialog = new EditShoppingItemDialogFragment().newInstance(item.getName());
         final DialogFragment purchaseDialog = new PurchaseItemDialogFragment().newInstance(item.getName());
@@ -114,7 +115,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.deleteShoppingItem:
-                                deleteShoppingListItem((String) holder.itemName.getText());
+                                deleteShoppingListItem(itemId);
                                 break;
                             case R.id.editShoppingItem:
                                 FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
