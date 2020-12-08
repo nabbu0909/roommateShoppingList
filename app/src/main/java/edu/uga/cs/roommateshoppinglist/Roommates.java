@@ -2,6 +2,9 @@ package edu.uga.cs.roommateshoppinglist;
 
 import java.util.ArrayList;
 
+/**
+ * This roommate class allows for a roommate object to be accessed.
+ */
 public class Roommates {
 
     private String roommateName;
@@ -16,12 +19,9 @@ public class Roommates {
         this.amountPaid = amountPaid;
     }
 
-
     public String getName() { return roommateName; }
 
     public String getAmountPaid() { return amountPaid; }
-
-    public void setRoommateName(String roommateName) { this.roommateName = roommateName;}
 
     public void setAmountPaid(String amountPaid) { this.amountPaid = amountPaid; }
 

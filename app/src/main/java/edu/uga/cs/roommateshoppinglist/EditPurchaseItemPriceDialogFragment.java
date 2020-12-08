@@ -17,11 +17,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * This dialog class creates a dialog when a user wishes to edit the price of an item.
+ * It prompts the user to input the new price of the desired item.
+ */
 public class EditPurchaseItemPriceDialogFragment extends DialogFragment {
     DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("PurchaseList");
     String price;
     EditText priceText;
 
+    //constructor
     public static EditPurchaseItemPriceDialogFragment newInstance(String oldId){
         EditPurchaseItemPriceDialogFragment fragment = new EditPurchaseItemPriceDialogFragment();
 

@@ -29,7 +29,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 /**
- * This is an aadapter class for the RecyclerView to show all previous quizzes.
+ * This is an adapter class for the RecyclerView to show all shopping list items.
  */
 public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ShoppingListHolder>{
 

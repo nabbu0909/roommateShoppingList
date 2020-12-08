@@ -24,6 +24,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+/**
+ *This recycler adapter contains the information of an item in the purchase list.
+ * It populates a purchased item card view with item specific info such as name, price,
+ * and purchase history. Additionally, the item can be deleted from this list and moved
+ * back to the shopping list, or the price of the item can be changed.
+ */
 public class PurchaseListRecyclerAdapter extends RecyclerView.Adapter<PurchaseListRecyclerAdapter.PurchaseListHolder> {
 
     public static final String DEBUG_TAG = "PurchaseListRecyclerAdapter";
@@ -58,7 +64,7 @@ public class PurchaseListRecyclerAdapter extends RecyclerView.Adapter<PurchaseLi
         // This is a bit tricky, and we must provide the parent reference (the second param of inflate)
         // and false as the third parameter (don't attach to root).
         // Consequently, the parent view's (the RecyclerView) width will be used (match_parent).
-        View view = LayoutInflater.from( parent.getContext()).inflate( R.layout.purchased_item_view, parent, false );
+        View view = LayoutInflater.from( parent.getContext()).inflate( R.layout.purchase_item_view, parent, false );
         return new PurchaseListHolder( view );
     }
 
@@ -79,6 +85,7 @@ public class PurchaseListRecyclerAdapter extends RecyclerView.Adapter<PurchaseLi
                 editPurchaseDialog.show(fragmentManager, "EditPurchaseItemPriceDialogFragment");
             }
         });
+        //remove item from the purchase list db and put it back in the shopping list db.
         holder.deleteItem.setOnClickListener(new View.OnClickListener(){
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -96,6 +103,7 @@ public class PurchaseListRecyclerAdapter extends RecyclerView.Adapter<PurchaseLi
         });
     }
 
+    //deletes the item via name from the purchase list
     public void deletePurchaseListItem(String name){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query delQuery = ref.child("PurchaseList").orderByChild("itemID").equalTo(name);

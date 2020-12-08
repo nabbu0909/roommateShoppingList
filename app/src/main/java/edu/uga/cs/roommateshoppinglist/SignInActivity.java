@@ -17,6 +17,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class allows a preexisting user to sign in to the app using their email
+ * and password from firebase.
+ */
 public class SignInActivity extends AppCompatActivity {
 
     private EditText emailEditText;

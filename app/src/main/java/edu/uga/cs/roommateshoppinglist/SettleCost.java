@@ -28,6 +28,12 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class allows for the roommates to settle the cost outside of the app.
+ * From the purchased item list, the user can choose to remove all the items
+ * by choosing to settle the cost. The final total of the items settled will be
+ * shown as well.
+ */
 public class SettleCost extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -64,7 +70,7 @@ public class SettleCost extends AppCompatActivity {
     }
     public void onStart() {
         super.onStart();
-
+        //must get cost of each item in the purchase list when settling the cost
         referenceItems.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -78,7 +84,7 @@ public class SettleCost extends AppCompatActivity {
                     PurchasedItems.add(item);
                 }
 
-                //@calvin do stuff that turns the list of purchased items into roommates and whatever calculations here
+                //turns the list of purchased items into roommates object for total amount paid by each
                 for (Item item: PurchasedItems) {
                     if (roommatesArrayList.size() == 0) {
                         Roommates newR = new Roommates(item.getRoommateName(), item.getItemPrice());
@@ -104,7 +110,7 @@ public class SettleCost extends AppCompatActivity {
                 if (PurchasedItems.size() == 0){
                     finalCost.setText("No items were purchased");
                 }
-                else {
+                else { //final cost for each roommate
                     totalCost /= roommatesArrayList.size();
                     totalCost = round(totalCost);
                     finalCost.setText("Each person owes: $" + totalCost);
@@ -121,13 +127,13 @@ public class SettleCost extends AppCompatActivity {
             }
         });
     }
-
+    //rounds dollar about to nearest hundredth.
     private static double round(Double d){
         BigDecimal bd = BigDecimal.valueOf(d);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
-
+    //deletes the items from the purchased list after cost has been settled
     public void deletePurchaseItems(){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query delQuery = ref.child("PurchaseList").orderByChild("name");

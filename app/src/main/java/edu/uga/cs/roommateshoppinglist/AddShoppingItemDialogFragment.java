@@ -13,6 +13,10 @@ import androidx.fragment.app.DialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * This dialog class creates a dialog when a user wishes to add an item to the shopping list.
+ * It prompts the user to input the name of the desired item.
+ */
 public class AddShoppingItemDialogFragment extends DialogFragment {
 
     DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("ShoppingList");

@@ -21,6 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class handles the listing of purchased items and allows the user to settle the cost
+ * and populate the recycler view with the purchased items activity
+ */
 public class PurchasedItems extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -68,7 +72,7 @@ public class PurchasedItems extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
                 List<String> keys = new ArrayList<>();
-
+                //for each item, add it to the purchase item list
                 for(DataSnapshot key : snapshot.getChildren()){
                     keys.add(key.getKey());
                     Item item = key.getValue(Item.class);

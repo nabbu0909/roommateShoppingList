@@ -16,6 +16,10 @@ import com.google.firebase.database.ChildEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * Recycler Adapter for settling the cost. It holds the roommate view with the amount paid,
+ * needed to settle the total cost.
+ */
 public class SettleCostRecyclerAdapter extends RecyclerView.Adapter<SettleCostRecyclerAdapter.RoommateHolder> {
 
     private ArrayList<Roommates> roommatesArrayList;

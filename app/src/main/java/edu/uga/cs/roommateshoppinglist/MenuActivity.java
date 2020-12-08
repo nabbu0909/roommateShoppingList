@@ -16,7 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
+/**
+ * This MenuActivity class allows for the welcoming of the signed in user once logged into firebase.
+ */
 public class MenuActivity extends AppCompatActivity {
 
     TextView welcome;

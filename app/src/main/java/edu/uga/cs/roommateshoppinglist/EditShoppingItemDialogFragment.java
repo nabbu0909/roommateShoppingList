@@ -17,11 +17,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * This dialog class creates a dialog when a user wishes to edit the name of an item.
+ * It prompts the user to input the new name of the desired item.
+ */
 public class EditShoppingItemDialogFragment extends DialogFragment {
     DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("ShoppingList");
     String name;
     EditText nameText;
 
+    //constructor
     public static EditShoppingItemDialogFragment newInstance(String oldName){
         EditShoppingItemDialogFragment fragment = new EditShoppingItemDialogFragment();
 

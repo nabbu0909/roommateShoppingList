@@ -17,6 +17,10 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This is the main class for the splash screen. It handles the primary button functionality
+ * for signing into and registering a firebase user account.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             mAuth.signOut();
     }
 
+    //button handler
     private class RegisterButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //button handler
     private class SignInButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {

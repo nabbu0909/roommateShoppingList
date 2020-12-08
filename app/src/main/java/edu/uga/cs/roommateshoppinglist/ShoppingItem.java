@@ -1,5 +1,8 @@
 package edu.uga.cs.roommateshoppinglist;
 
+/**
+ * This Shopping Item class allows for an shopping item object to be accessed.
+ */
 public class ShoppingItem {
 
     private String name;
@@ -13,13 +16,11 @@ public class ShoppingItem {
         this.itemId = itemId;
     }
 
-    public ShoppingItem( ) {
-        this.name = null;
-    }
-
     public ShoppingItem(String name) {
         this.name = name;
     }
+
+    public ShoppingItem(){ this.name = null; }
 
     public String getName() {
         return name;

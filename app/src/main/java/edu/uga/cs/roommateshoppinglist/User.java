@@ -1,5 +1,8 @@
 package edu.uga.cs.roommateshoppinglist;
 
+/**
+ * This User class allows a user object to be accessed.
+ */
 public class User {
 
     String userId;
@@ -14,10 +17,6 @@ public class User {
         this.userId = userId;
         this.name = name;
         this.email = email;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
     public String getName() {

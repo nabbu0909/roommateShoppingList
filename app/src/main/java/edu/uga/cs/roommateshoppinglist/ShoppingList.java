@@ -20,6 +20,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class configures the layout and recycler view for the shopping list items to
+ * be displayed after a user adds it to this list. It also adds the item into the database.
+ */
 public class ShoppingList extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();

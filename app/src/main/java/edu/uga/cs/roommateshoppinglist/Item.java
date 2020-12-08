@@ -6,6 +6,9 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 
+/**
+ * This item class allows for an shopping item object to be accessed.
+ */
 public class Item {
 
     private String itemName;
@@ -36,13 +39,6 @@ public class Item {
 
     public String getRoommateName(){ return roommateName; }
 
-    public void setItemName(String itemName){ this.itemName = itemName; }
-
-    public void setItemPrice(String itemPrice){ this.itemPrice = itemPrice; }
-
     public void setItemID(String itemID){ this.itemID = itemID; }
 
-    public void setDate(String date){ this.date = date; }
-
-    public void setRoommateName(String roommateName) { this.roommateName = roommateName; }
 }

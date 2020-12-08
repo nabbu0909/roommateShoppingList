@@ -24,6 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * This dialog fragment prompts the user to confirm purchase of the item, moving it from
+ * the shopping list to the purchased list after confirmation.
+ */
 public class PurchaseItemDialogFragment extends DialogFragment {
     DatabaseReference databaseShoppingList = FirebaseDatabase.getInstance().getReference("PurchaseList");
     DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("users");
@@ -75,7 +79,7 @@ public class PurchaseItemDialogFragment extends DialogFragment {
                 });
         return builder.create();
     }
-
+    //remove the shopping item from the shopping list since its now in the purchase list
     public void deleteShoppingListItem(String name){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query delQuery = ref.child("ShoppingList").orderByChild("name").equalTo(name);

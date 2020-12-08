@@ -22,6 +22,10 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * This Activity handles the registration of a new user, prompting a valid email and then
+ * double password confirmation before making that new account in firebase.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
 
