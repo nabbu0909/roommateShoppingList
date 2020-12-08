@@ -97,6 +97,7 @@ public class PurchaseListRecyclerAdapter extends RecyclerView.Adapter<PurchaseLi
 
                 ShoppingItem newItem = new ShoppingItem(item.getItemName());
                 String dbID = databaseShoppingList.push().getKey();
+                newItem.setItemId(dbID);
                 databaseShoppingList.child(dbID).setValue(newItem);
                 deletePurchaseListItem(item.getItemID());
             }
